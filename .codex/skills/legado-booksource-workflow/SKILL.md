@@ -55,6 +55,12 @@ Use the raw detail, toc, or chapter URL forms when you want to isolate one phase
 - Confirm the selected item has correct `书名`, `作者`, `详情页链接`.
 - If full-chain debugging is noisy, re-run only the detail/toc/content phase with the dedicated debugger input forms.
 
+### Detail page
+
+- Confirm the debugger returns a non-empty detail result with correct `书名`, `作者`, `分类`, `简介`, `目录链接`.
+- If the detail `简介` intentionally uses a leading indent on the first line, confirm that indent is preserved in debugger output rather than being trimmed away.
+- If the detail `简介` contains section labels such as `🏷️ 标签` or `📍版权来源`, confirm the blank line before those labeled sections is preserved in debugger output. Use an invisible spacer such as a zero-width character only when needed to keep the blank line stable.
+
 ### Directory page
 
 - Confirm the toc source is HTML or an API.

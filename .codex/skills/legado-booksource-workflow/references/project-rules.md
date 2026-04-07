@@ -20,9 +20,15 @@ These rules came from the initial repository instruction and apply to all future
 
 - You must use the local `调试源` page before writing or updating a `.bookSource.json`
 - `搜索页` must return a valid book list
+- `详情页` must return correct metadata and the intended intro formatting
 - `目录页` must return a valid chapter list
 - `正文页` must return non-empty content
 - Do not write the file until all three pass
+
+For `详情页` intro formatting:
+
+- Preserve an intentional first-line leading indent when the source design uses one
+- Preserve intentional blank lines before labeled sections such as `🏷️ 标签` or `📍版权来源`
 
 ## Editor Workflow Rule
 

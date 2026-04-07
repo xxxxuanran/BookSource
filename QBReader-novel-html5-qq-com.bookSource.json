@@ -15,7 +15,7 @@
         "kind": "{{(()=>{var b=JSON.parse(src).data.bookInfo;var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var label=b.isfinish ? '已完结：' : '连载中：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
         "wordCount": "$.data.bookInfo.contentsize",
         "lastChapter": "$.data.bookInfo.lastSerialname",
-        "intro": "{{(()=>{var b=JSON.parse(src).data.bookInfo||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s=(s?'\\t'+s+'\\r\\n\\t':'')+'🏷️标签：'+tag;}return s;})()}}",
+        "intro": "{{(()=>{var b=JSON.parse(src).data.bookInfo||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}if(s){s='&nbsp;&nbsp;'+s;}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s+=(s?'\\r\\n\\u200B\\r\\n':'')+'🏷️ 标签：'+tag;}return s;})()}}",
         "coverUrl": "$.data.bookInfo.picurl",
         "tocUrl": "https://novel.html5.qq.com/cgi-bin/novel_reader/catalog?book_id={{qbrNormalizeId(JSON.parse(src).data.bookInfo.resourceID)}}",
         "name": "$.data.bookInfo.resourceName"

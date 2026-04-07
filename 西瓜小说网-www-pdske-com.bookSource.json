@@ -12,7 +12,7 @@
     "author": ".booktag a.red@text",
     "kind": ".breadcrumb@a.1@text&&.booktime@text##.*：|\\\\s..:.*",
     "lastChapter": ".bookchapter@text",
-    "intro": ".bookintromore@textNodes",
+    "intro": ".bookintromore@textNodes##^##&nbsp;&nbsp;",
     "coverUrl": ".bookcover img@src"
   },
   "ruleContent": {
