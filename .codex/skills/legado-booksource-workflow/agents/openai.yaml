@@ -1,0 +1,4 @@
+interface:
+  display_name: "Legado BookSource Workflow"
+  short_description: "Repo workflow for Legado book sources"
+  default_prompt: "Use $legado-booksource-workflow to adapt or debug a Legado 3.0 book source in this repository."
