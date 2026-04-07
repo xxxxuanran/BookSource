@@ -1,0 +1,42 @@
+{
+    "ruleSearch": {
+        "checkKeyWord": "斗破苍穹",
+        "bookList": "$.data.books[*]",
+        "name": "$.original_title",
+        "author": "$.original_author",
+        "kind": "{{qmJoinCsv(result.ptags)}}",
+        "wordCount": "$.words_num",
+        "intro": "{{qmStripTags(result.intro)}}",
+        "coverUrl": "$.image_link",
+        "bookUrl": "{{qmDetailUrl(result.id)}}"
+    },
+    "ruleBookInfo": {
+        "name": "$.data.book.title",
+        "author": "$.data.book.author",
+        "kind": "{{qmKind(qmBook(src))}}",
+        "wordCount": "$.data.book.words_num",
+        "lastChapter": "$.data.book.latest_chapter_title",
+        "intro": "{{qmIntro(qmBook(src))}}",
+        "coverUrl": "$.data.book.image_link",
+        "tocUrl": "{{qmTocUrl(qmBook(src).id||'')}}"
+    },
+    "ruleToc": {
+        "chapterList": "$.data.chapter_lists[*]",
+        "chapterName": "$.title",
+        "chapterUrl": "{{qmChapterUrl(book.bookUrl,result.id)}}",
+        "updateTime": "$.words"
+    },
+    "ruleContent": {
+        "content": "{{qmContent(src)}}"
+    },
+    "ruleExplore": {},
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.qimao.com",
+    "bookSourceName": "七猫中文网(www.qimao.com)",
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/08",
+    "header": "{\"User-Agent\":\"webviewversion/0\",\"sign\":\"33655f28ef18012076d91811923449d6\"}",
+    "jsLib": "var qmApiHost='https://api-bc.wtzw.com';\nvar qmChapterHost='https://api-ks.wtzw.com';\nvar qmImeiIp='2937357107';\nvar qmTeenyMode='0';\nvar qmUtf8='UTF-8';\nvar qmSignKey='d3dGiJc651gSQ8w1';\nvar qmAesKey='242ccb8230d709e1';\nvar qmJString=Packages.java.lang.String;\nvar qmMessageDigest=Packages.java.security.MessageDigest;\nvar qmURLEncoder=Packages.java.net.URLEncoder;\nvar qmBase64Decoder=Packages.java.util.Base64.getDecoder();\nvar qmArrays=Packages.java.util.Arrays;\nvar qmCipherCls=Packages.javax.crypto.Cipher;\nvar qmSecretKeySpecCls=Packages.javax.crypto.spec.SecretKeySpec;\nvar qmIvParameterSpecCls=Packages.javax.crypto.spec.IvParameterSpec;\nvar qmAesKeyBytes=(new qmJString(qmAesKey)).getBytes(qmUtf8);\nvar qmNormalize=(obj)=>{var out={};Object.keys(obj||{}).forEach((key)=>{var value=obj[key];if(value!==undefined&&value!==null)out[key]=String(value);});return out;};\nvar qmSortedKeys=(obj)=>Object.keys(obj||{}).sort();\nvar qmMd5=(text)=>{var bytes=(new qmJString(String(text))).getBytes(qmUtf8);var digest=qmMessageDigest.getInstance('MD5').digest(bytes);var out=[];for(var i=0;i<digest.length;i++){var s=((digest[i]&255).toString(16));out.push(s.length==1?'0'+s:s);}return out.join('');};\nvar qmSign=(obj)=>{var p=qmNormalize(obj);var keys=qmSortedKeys(p);return qmMd5(keys.map((key)=>key+'='+p[key]).join('')+qmSignKey);};\nvar qmBuildUrl=(base,obj)=>{var p=qmNormalize(obj);p.sign=qmSign(p);var keys=qmSortedKeys(p);var query=keys.map((key)=>key+'='+qmURLEncoder.encode(String(p[key]),qmUtf8)).join('&');return base+'?'+query;};\nvar qmParse=(src)=>JSON.parse(String(src||'{}'));\nvar qmBook=(src)=>{var data=qmParse(src).data||{};return data.book||{};};\nvar qmStripTags=(text)=>String(text||'').replace(/<[^>]+>/g,'');\nvar qmJoinCsv=(text)=>String(text||'').split(',').filter((item)=>item).join('，');\nvar qmGetBookId=(url)=>{var m=String(url||'').match(/[?&]id=([^&]+)/);return m?m[1]:'';};\nvar qmSearchUrl=(page,key)=>qmBuildUrl(qmApiHost+'/api/v5/search/words',{gender:'3',imei_ip:qmImeiIp,page:String(page),wd:key});\nvar qmDetailUrl=(bookId)=>qmBuildUrl(qmApiHost+'/api/v4/book/detail',{id:bookId,imei_ip:qmImeiIp,teeny_mode:qmTeenyMode});\nvar qmTocUrl=(bookId)=>qmBuildUrl(qmChapterHost+'/api/v1/chapter/chapter-list',{id:bookId});\nvar qmContentUrl=(bookId,chapterId)=>qmBuildUrl(qmChapterHost+'/api/v1/chapter/content',{id:bookId,chapterId:chapterId});\nvar qmChapterUrl=(bookUrl,chapterId)=>qmContentUrl(qmGetBookId(bookUrl),chapterId);\nvar qmKind=(book)=>{var status=String(book.is_over||'')=='1'?'完结':'连载';return [book.category1_name||'',book.category2_name||'',status].filter((item)=>item).join(',');};\nvar qmIntro=(book)=>{var intro=String(book.intro||'').trim();var tags=(book.book_tag_list||[]).map((item)=>item&&item.title?item.title:'').filter((item)=>item).join('，');if(tags)intro+=(intro?'\\r\\n\\t':'')+'标签：'+tags;return intro;};\nvar qmDecrypt=(encoded)=>{if(!encoded)return '';var data=qmBase64Decoder.decode(String(encoded));if(!data||data.length<=16)return '';var iv=qmArrays.copyOfRange(data,0,16);var body=qmArrays.copyOfRange(data,16,data.length);var cipher=qmCipherCls.getInstance('AES/CBC/PKCS5Padding');var key=new qmSecretKeySpecCls(qmAesKeyBytes,'AES');cipher.init(qmCipherCls.DECRYPT_MODE,key,new qmIvParameterSpecCls(iv));return String(new qmJString(cipher.doFinal(body),qmUtf8)).trim();};\nvar qmContent=(src)=>{var data=qmParse(src).data||{};return qmDecrypt(data.content||'');};",
+    "enabled": true,
+    "enabledCookieJar": true,
+    "searchUrl": "{{qmSearchUrl(page,key)}}"
+}
