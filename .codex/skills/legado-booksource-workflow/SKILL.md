@@ -27,6 +27,7 @@ New sources must be created through the internal Legado source editor page opera
 - In the internal editor page, the `其他` tab settings `启用搜索` and `CookieJar` must be enabled.
 - If a sub-request needs custom `headers` and those headers cannot be fully moved to the top-level `header`, redefine the complete header object inside that sub-request. Request-level custom headers override the top-level header rather than merge with it.
 - Anonymous functions must use arrow functions such as `()=>{}`. Only named functions may use the `function` keyword.
+- If the same JS transformation is reused across multiple rules in one source, extract it into a named helper in `jsLib` and call that helper from each rule instead of duplicating inline logic. Prefer concise, source-specific names such as `qbrNormalizeId`.
 
 ## Debug Input Conventions
 

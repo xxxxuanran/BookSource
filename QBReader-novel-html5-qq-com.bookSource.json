@@ -8,28 +8,27 @@
         "wordCount": "$.totalWords",
         "lastChapter": "$.updateInfo",
         "intro": "$.intro",
-        "bookUrl": "{{'https://novel.html5.qq.com/qbread/api/novel/bookInfo?resourceId=11'+result.bid}}"
+        "bookUrl": "{{(()=>{var id=qbrNormalizeId(result.bid);return id?'https://novel.html5.qq.com/qbread/api/novel/bookInfo?resourceId='+id:'';})()}}"
     },
     "ruleBookInfo": {
         "author": "$.data.bookInfo.author",
-        "kind": "{{(()=>{var b=JSON.parse(src).data.bookInfo;var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var label=b.isfinish ? '已完结：' : '最近更新：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
+        "kind": "{{(()=>{var b=JSON.parse(src).data.bookInfo;var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var label=b.isfinish ? '已完结：' : '连载中：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
         "wordCount": "$.data.bookInfo.contentsize",
         "lastChapter": "$.data.bookInfo.lastSerialname",
-        "intro": "$.data.bookInfo.summary",
+        "intro": "{{(()=>{var b=JSON.parse(src).data.bookInfo||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s=(s?'\\t'+s+'\\r\\n\\t':'')+'🏷️标签：'+tag;}return s;})()}}",
         "coverUrl": "$.data.bookInfo.picurl",
-        "tocUrl": "https://novel.html5.qq.com/cgi-bin/novel_reader/catalog?book_id={{JSON.parse(src).data.bookInfo.resourceID}}",
+        "tocUrl": "https://novel.html5.qq.com/cgi-bin/novel_reader/catalog?book_id={{qbrNormalizeId(JSON.parse(src).data.bookInfo.resourceID)}}",
         "name": "$.data.bookInfo.resourceName"
     },
     "ruleToc": {
         "chapterName": "{{(!(result.price==0 || result.is_free) && !result.is_pay ? '__LOCK__' : '') + result.serial_name}}",
-        "chapterUrl": "https://novel.html5.qq.com/be-api/content/ads-read,{\"method\":\"POST\",\"headers\":{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\",\"Q-GUID\":\"{{Array.from({length:32},()=>'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random()*36))).join('')}}\"},\"body\":\"{\\\"Scene\\\":\\\"chapter\\\",\\\"ContentAnchorBatch\\\":[{\\\"BookID\\\":\\\"{{baseUrl.split('book_id=')[1].split('&')[0]}}\\\",\\\"ChapterSeqNo\\\":[{{result.serial_id}}]}]}\"}",
+        "chapterUrl": "https://novel.html5.qq.com/be-api/content/ads-read,{\"method\":\"POST\",\"headers\":{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\",\"Q-GUID\":\"{{Array.from({length:32},()=>'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random()*36))).join('')}}\"},\"body\":\"{\\\"Scene\\\":\\\"chapter\\\",\\\"ContentAnchorBatch\\\":[{\\\"BookID\\\":\\\"{{qbrNormalizeId(baseUrl.indexOf('book_id=')>-1?baseUrl.split('book_id=')[1].split('&')[0]:'')}}\\\",\\\"ChapterSeqNo\\\":[{{result.serial_id}}]}]}\"}",
         "isPay": "{{result.is_pay || result.price==0 || result.is_free}}",
         "chapterList": "$.catalog[*]",
         "isVip": "{{!(result.price==0 || result.is_free)}}",
         "formatJs": "title.indexOf('__LOCK__')==0 ? '🔒 ' + title.substring(8) : title"
     },
     "ruleContent": {
-        "title": "$.data.Content[0].ChapterInfo.Title",
         "content": "{{(()=>{var data=JSON.parse(src);var items=data&&data.data&&data.data.Content;if(!items||!items.length)return '';var lines=items[0].Content;return Array.isArray(lines)?lines.join('\\\\n').trim():'';})()}}"
     },
     "ruleExplore": {},
@@ -37,8 +36,8 @@
     "bookSourceUrl": "https://novel.html5.qq.com",
     "bookSourceName": "QBReader(novel.html5.qq.com)",
     "bookSourceComment": "[Codex] latestUpdate: 2026/04/07",
-    "bookSourceGroup": "",
     "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\"}",
+    "jsLib": "var qbrNormalizeId=(raw)=>{raw=String(raw||'');var id=0;if(raw.indexOf('11')==0&&raw.length<10){id=parseInt(raw.substring(2),10);}else{id=parseInt(raw,10);}if(!(id>0))return '';if(id<1100000000)id+=1100000000;return String(id);};",
     "searchUrl": "https://newopensearch.reader.qq.com/wechat?keyword={{key}}&start={{(page-1)*30}}&end={{page*30}}",
     "enabled": true,
     "enabledCookieJar": true
