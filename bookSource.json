@@ -11,7 +11,7 @@
     "ruleBookInfo": {
       "author": "$.data.bookInfo.author",
       "coverUrl": "$.data.bookInfo.picurl",
-      "intro": "{{(()=>{var b=JSON.parse(src).data.bookInfo||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s=(s?'\\t'+s+'\\r\\n\\t':'')+'🏷️标签：'+tag;}return s;})()}}",
+      "intro": "{{(()=>{var b=JSON.parse(src).data.bookInfo||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}if(s){s='&nbsp;&nbsp;'+s;}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s+=(s?'\\r\\n\\u200B\\r\\n':'')+'🏷️ 标签：'+tag;}return s;})()}}",
       "kind": "{{(()=>{var b=JSON.parse(src).data.bookInfo;var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var label=b.isfinish ? '已完结：' : '连载中：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
       "lastChapter": "$.data.bookInfo.lastSerialname",
       "name": "$.data.bookInfo.resourceName",
@@ -43,6 +43,47 @@
     "searchUrl": "https://newopensearch.reader.qq.com/wechat?keyword={{key}}&start={{(page-1)*30}}&end={{page*30}}"
   },
   {
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/08",
+    "bookSourceName": "七猫中文网(www.qimao.com)",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.qimao.com",
+    "enabled": true,
+    "enabledCookieJar": true,
+    "header": "{\"User-Agent\":\"webviewversion/0\",\"sign\":\"33655f28ef18012076d91811923449d6\"}",
+    "jsLib": "var qmApiHost='https://api-bc.wtzw.com';\nvar qmChapterHost='https://api-ks.wtzw.com';\nvar qmImeiIp='2937357107';\nvar qmTeenyMode='0';\nvar qmUtf8='UTF-8';\nvar qmSignKey='d3dGiJc651gSQ8w1';\nvar qmAesKey='242ccb8230d709e1';\nvar qmJString=Packages.java.lang.String;\nvar qmMessageDigest=Packages.java.security.MessageDigest;\nvar qmURLEncoder=Packages.java.net.URLEncoder;\nvar qmBase64Decoder=Packages.java.util.Base64.getDecoder();\nvar qmArrays=Packages.java.util.Arrays;\nvar qmCipherCls=Packages.javax.crypto.Cipher;\nvar qmSecretKeySpecCls=Packages.javax.crypto.spec.SecretKeySpec;\nvar qmIvParameterSpecCls=Packages.javax.crypto.spec.IvParameterSpec;\nvar qmAesKeyBytes=(new qmJString(qmAesKey)).getBytes(qmUtf8);\nvar qmNormalize=(obj)=>{var out={};Object.keys(obj||{}).forEach((key)=>{var value=obj[key];if(value!==undefined&&value!==null)out[key]=String(value);});return out;};\nvar qmSortedKeys=(obj)=>Object.keys(obj||{}).sort();\nvar qmMd5=(text)=>{var bytes=(new qmJString(String(text))).getBytes(qmUtf8);var digest=qmMessageDigest.getInstance('MD5').digest(bytes);var out=[];for(var i=0;i<digest.length;i++){var s=((digest[i]&255).toString(16));out.push(s.length==1?'0'+s:s);}return out.join('');};\nvar qmSign=(obj)=>{var p=qmNormalize(obj);var keys=qmSortedKeys(p);return qmMd5(keys.map((key)=>key+'='+p[key]).join('')+qmSignKey);};\nvar qmBuildUrl=(base,obj)=>{var p=qmNormalize(obj);p.sign=qmSign(p);var keys=qmSortedKeys(p);var query=keys.map((key)=>key+'='+qmURLEncoder.encode(String(p[key]),qmUtf8)).join('&');return base+'?'+query;};\nvar qmParse=(src)=>JSON.parse(String(src||'{}'));\nvar qmBook=(src)=>{var data=qmParse(src).data||{};return data.book||{};};\nvar qmStripTags=(text)=>String(text||'').replace(/<[^>]+>/g,'');\nvar qmJoinCsv=(text)=>String(text||'').split(',').filter((item)=>item).join('，');\nvar qmCover=(url)=>String(url||'').replace(/_\\d+x\\d+(?=\\.[^./?#]+(?:[?#].*)?$)/i,'');\nvar qmBookTags=(book)=>(book.book_tag_list||[]).map((item)=>item&&item.title?item.title:'').filter((item)=>item).join('，');\nvar qmStatement=(book)=>String(book.statement||'').trim();\nvar qmDate=(unix)=>{var ts=parseInt(String(unix||'0'),10);if(!(ts>0))return '';var d=new Date(ts*1000);var p=(n)=>n<10?'0'+n:String(n);return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};\nvar qmGetBookId=(url)=>{var m=String(url||'').match(/[?&]id=([^&]+)/);return m?m[1]:'';};\nvar qmSearchUrl=(page,key)=>qmBuildUrl(qmApiHost+'/api/v5/search/words',{gender:'3',imei_ip:qmImeiIp,page:String(page),wd:key});\nvar qmDetailUrl=(bookId)=>qmBuildUrl(qmApiHost+'/api/v4/book/detail',{id:bookId,imei_ip:qmImeiIp,teeny_mode:qmTeenyMode});\nvar qmTocUrl=(bookId)=>qmBuildUrl(qmChapterHost+'/api/v1/chapter/chapter-list',{id:bookId});\nvar qmContentUrl=(bookId,chapterId)=>qmBuildUrl(qmChapterHost+'/api/v1/chapter/content',{id:bookId,chapterId:chapterId});\nvar qmChapterUrl=(bookUrl,chapterId)=>qmContentUrl(qmGetBookId(bookUrl),chapterId);\nvar qmKind=(book)=>{var status=String(book.is_over||'')=='1'?'已完结':'连载中'+'：'+qmDate(book.update_time);return [book.category1_name||'',book.category2_name||'',status].filter((item)=>item).join(',');};\nvar qmIntro=(book)=>{var intro=String(book.intro||'').trim();var tags=qmBookTags(book);var statement=qmStatement(book);if(intro)intro='&nbsp;&nbsp;'+intro;if(tags)intro+=(intro?'\\r\\n\\u200B\\r\\n':'')+'🏷️标签：'+tags;if(statement)intro+=(intro?'\\r\\n\\u200B\\r\\n':'')+'📍版权来源：'+statement;return intro;};\nvar qmDecrypt=(encoded)=>{if(!encoded)return '';var data=qmBase64Decoder.decode(String(encoded));if(!data||data.length<=16)return '';var iv=qmArrays.copyOfRange(data,0,16);var body=qmArrays.copyOfRange(data,16,data.length);var cipher=qmCipherCls.getInstance('AES/CBC/PKCS5Padding');var key=new qmSecretKeySpecCls(qmAesKeyBytes,'AES');cipher.init(qmCipherCls.DECRYPT_MODE,key,new qmIvParameterSpecCls(iv));return String(new qmJString(cipher.doFinal(body),qmUtf8)).trim();};\nvar qmContent=(src)=>{var data=qmParse(src).data||{};return qmDecrypt(data.content||'');};",
+    "ruleBookInfo": {
+      "author": "$.data.book.author",
+      "coverUrl": "{{qmCover(qmBook(src).image_link)}}",
+      "intro": "{{qmIntro(qmBook(src))}}",
+      "kind": "{{qmKind(qmBook(src))}}",
+      "lastChapter": "$.data.book.latest_chapter_title",
+      "name": "$.data.book.title",
+      "tocUrl": "{{qmTocUrl(qmBook(src).id||'')}}",
+      "wordCount": "$.data.book.words_num"
+    },
+    "ruleContent": {
+      "content": "{{qmContent(src)}}"
+    },
+    "ruleSearch": {
+      "author": "$.original_author",
+      "bookList": "$.data.books[*]",
+      "bookUrl": "{{qmDetailUrl(result.id)}}",
+      "checkKeyWord": "斗破苍穹",
+      "coverUrl": "{{qmCover(result.image_link)}}",
+      "intro": "{{qmStripTags(result.intro)}}",
+      "kind": "$.ptags",
+      "name": "$.original_title",
+      "wordCount": "$.words_num"
+    },
+    "ruleToc": {
+      "chapterList": "$.data.chapter_lists[*]",
+      "chapterName": "$.title",
+      "chapterUrl": "{{qmChapterUrl(book.bookUrl,result.id)}}",
+      "updateTime": "$.words"
+    },
+    "searchUrl": "{{qmSearchUrl(page,key)}}"
+  },
+  {
     "bookSourceComment": "[Codex] latestUpdate: 2026/04/07",
     "bookSourceName": "爱下电子书(ixdzs8.com)",
     "bookSourceType": 0,
@@ -50,7 +91,7 @@
     "ruleBookInfo": {
       "author": ".n-text > p:first-of-type a@text",
       "coverUrl": ".n-img img@src",
-      "intro": "{{(()=>{var s='';if(src.indexOf('<p id=\"intro\"')>-1){s=src.split('<p id=\"intro\"')[1];s=s.substring(s.indexOf('>')+1);s=s.split('</p>')[0];s=s.split('<span class=\"icon c-more\"></span>').join('');s=String(java.htmlFormat(s)).trim();}var tags='';if(src.indexOf('<div class=\"tags\">')>-1){var t=src.split('<div class=\"tags\">')[1].split('</div>')[0];t=t.split('</em>').join('\\n');var arr=String(java.htmlFormat(t)).replace('标签:','').split('\\n');var out=[];for(var i=0;i<arr.length;i++){var item=arr[i].trim();if(item)out.push(item);}tags=out.join('，');}if(tags){s+=(s?'\\r\\n\\t':'')+'🏷️标签：'+tags;}return s;})()}}",
+      "intro": "{{(()=>{var s='';if(src.indexOf('<p id=\"intro\"')>-1){s=src.split('<p id=\"intro\"')[1];s=s.substring(s.indexOf('>')+1);s=s.split('</p>')[0];s=s.split('<span class=\"icon c-more\"></span>').join('');s=String(java.htmlFormat(s)).trim();}if(s){s='&nbsp;&nbsp;'+s;}var tags='';if(src.indexOf('<div class=\"tags\">')>-1){var t=src.split('<div class=\"tags\">')[1].split('</div>')[0];t=t.split('</em>').join('\\n');var arr=String(java.htmlFormat(t)).replace('标签:','').split('\\n');var out=[];for(var i=0;i<arr.length;i++){var item=arr[i].trim();if(item)out.push(item);}tags=out.join('，');}if(tags){s+=(s?'\\r\\n\\u200B\\r\\n':'')+'🏷️ 标签：'+tags;}return s;})()}}",
       "kind": "{{(()=>{var block='';var kind='';var status='';var updated='';if(src.indexOf('<div class=\"n-text\">')>-1){block=src.split('<div class=\"n-text\">')[1].split('</div>')[0];}else{block=src;}if(block.indexOf('class=\"nsort\">')>-1){kind=block.split('class=\"nsort\">')[1].split('</a>')[0].trim();}var ps=block.split('<p>');if(ps.length>2&&ps[2].indexOf('<span')>-1){var s=ps[2].split('<span')[1];status=s.substring(s.indexOf('>')+1).split('</span>')[0].trim();}if(block.indexOf('更新:')>-1){updated=block.split('更新:')[1].split('</p>')[0].trim().split(' ')[0];}return [kind,status&&(updated?status+'：'+updated:status)].filter((item)=>item).join(',');})()}}",
       "lastChapter": ".n-text p:nth-of-type(4) a@text",
       "name": "h1@text",
@@ -83,7 +124,6 @@
   },
   {
     "bookSourceComment": "[Codex] latestUpdate: 2026/04/08",
-    "bookSourceGroup": "",
     "bookSourceName": "西瓜小说网(www.pdske.com)",
     "bookSourceType": 0,
     "bookSourceUrl": "https://www.pdske.com",
@@ -91,25 +131,25 @@
     "enabledCookieJar": true,
     "header": "{\"accept\":\"text/html\",\"accept-language\":\"zh-CN\"}",
     "ruleBookInfo": {
-      "name": "h1.booktitle@text",
       "author": ".booktag a.red@text",
+      "coverUrl": ".bookcover img@src",
+      "intro": ".bookintromore@textNodes##^##&nbsp;&nbsp;",
       "kind": ".breadcrumb@a.1@text&&.booktime@text##.*：|\\\\s..:.*",
       "lastChapter": ".bookchapter@text",
-      "intro": ".bookintromore@textNodes",
-      "coverUrl": ".bookcover img@src"
+      "name": "h1.booktitle@text"
     },
     "ruleContent": {
       "content": "#TextContent@html"
     },
     "ruleSearch": {
-      "checkKeyWord": "斗罗大陆",
-      "bookList": ".bookbox,div.book",
-      "name": "h4.bookname a,h1.booktitle@text",
       "author": "div.author a,.booktag a.red@text",
-      "lastChapter": ".cat a,.bookchapter@text",
-      "intro": ".bookintromore,.update@textNodes",
+      "bookList": ".bookbox,div.book",
+      "bookUrl": "h4.bookname a@href",
+      "checkKeyWord": "斗罗大陆",
       "coverUrl": "img@data-original,.bookcover img@src",
-      "bookUrl": "h4.bookname a@href"
+      "intro": ".bookintromore,.update@textNodes",
+      "lastChapter": ".cat a,.bookchapter@text",
+      "name": "h4.bookname a,h1.booktitle@text"
     },
     "ruleToc": {
       "chapterList": "dd#chapter",
