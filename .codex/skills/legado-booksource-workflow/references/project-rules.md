@@ -24,6 +24,29 @@ These rules came from the initial repository instruction and apply to all future
 - `正文页` must return non-empty content
 - Do not write the file until all three pass
 
+## Editor Workflow Rule
+
+- New sources must be created and edited through the internal book source editor page, operated with Chrome DevTools
+- Do not directly handcraft the final `.bookSource.json`
+- Use the page's `生成源` capability to obtain the final JSON before saving
+- In the editor page `其他` tab, `启用搜索` and `CookieJar` must be enabled
+
+## Header Rule
+
+- If a request can use the top-level `header`, prefer that
+- If a sub-request must define its own `headers`, redefine the complete header object there
+- Request-level custom headers override the top-level `header` instead of merging with it
+
+## JS Style Rule
+
+- Anonymous functions must use arrow functions such as `()=>{}`
+- Only named functions may use the `function` keyword
+
+## Content Title Rule
+
+- Prefer leaving the content `标题规则` empty so the chapter title defaults to the title obtained from the directory phase
+- Only fill the content `标题规则` when the directory title is unreliable or needs correction from the chapter response
+
 ## Debugger Input Rule
 
 Use the debugger's dedicated input forms when isolating a phase:

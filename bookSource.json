@@ -1,26 +1,77 @@
 [
   {
-    "ruleSearch": {
-      "checkKeyWord": "炼神鼎",
-      "bookList": ".u-list>li",
-      "name": "h3.bname a@text",
-      "author": ".bauthor a@text",
-      "kind": ".lz@text",
-      "wordCount": ".size@text",
-      "lastChapter": ".l-chapter@text",
-      "intro": ".l-p2@text",
-      "coverUrl": ".l-img img@src",
-      "bookUrl": "h3.bname a@href"
-    },
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/07",
+    "bookSourceName": "QBReader(novel.html5.qq.com)",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://novel.html5.qq.com",
+    "enabled": true,
+    "enabledCookieJar": true,
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\"}",
     "ruleBookInfo": {
-      "name": "h1@text",
+      "author": "$.data.bookInfo.author",
+      "coverUrl": "$.data.bookInfo.picurl",
+      "intro": "$.data.bookInfo.summary",
+      "kind": "{{(()=>{var b=JSON.parse(src).data.bookInfo;var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var label=b.isfinish ? '已完结：' : '最近更新：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
+      "lastChapter": "$.data.bookInfo.lastSerialname",
+      "name": "$.data.bookInfo.resourceName",
+      "tocUrl": "https://novel.html5.qq.com/cgi-bin/novel_reader/catalog?book_id={{JSON.parse(src).data.bookInfo.resourceID}}",
+      "wordCount": "$.data.bookInfo.contentsize"
+    },
+    "ruleContent": {
+      "content": "{{(()=>{var data=JSON.parse(src);var items=data&&data.data&&data.data.Content;if(!items||!items.length)return '';var lines=items[0].Content;return Array.isArray(lines)?lines.join('\\\\n').trim():'';})()}}",
+      "title": "$.data.Content[0].ChapterInfo.Title"
+    },
+    "ruleSearch": {
+      "author": "$.author",
+      "bookList": "$.booklist[*]",
+      "bookUrl": "{{'https://novel.html5.qq.com/qbread/api/novel/bookInfo?resourceId=11'+result.bid}}",
+      "checkKeyWord": "重生后我怎么多了个青梅",
+      "intro": "$.intro",
+      "kind": "{{(()=>{var s=result.categoryInfoV4||'';return s.split(',').map((item)=>{var parts=item.split(':');return parts.length>1?parts[1]:'';}).filter((name)=>name && name!='小说').join(',');})()}}",
+      "lastChapter": "$.updateInfo",
+      "name": "$.title",
+      "wordCount": "$.totalWords"
+    },
+    "ruleToc": {
+      "chapterList": "$.catalog[*]",
+      "chapterName": "{{(!(result.price==0 || result.is_free) && !result.is_pay ? '__LOCK__' : '') + result.serial_name}}",
+      "chapterUrl": "https://novel.html5.qq.com/be-api/content/ads-read,{\"method\":\"POST\",\"headers\":{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\",\"Q-GUID\":\"{{Array.from({length:32},()=>'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random()*36))).join('')}}\"},\"body\":\"{\\\"Scene\\\":\\\"chapter\\\",\\\"ContentAnchorBatch\\\":[{\\\"BookID\\\":\\\"{{baseUrl.split('book_id=')[1].split('&')[0]}}\\\",\\\"ChapterSeqNo\\\":[{{result.serial_id}}]}]}\"}",
+      "formatJs": "title.indexOf('__LOCK__')==0 ? '🔒 ' + title.substring(8) : title",
+      "isPay": "{{result.is_pay || result.price==0 || result.is_free}}",
+      "isVip": "{{!(result.price==0 || result.is_free)}}"
+    },
+    "searchUrl": "https://newopensearch.reader.qq.com/wechat?keyword={{key}}&start={{(page-1)*30}}&end={{page*30}}"
+  },
+  {
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/07",
+    "bookSourceName": "爱下电子书(ixdzs8.com)",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://ixdzs8.com",
+    "ruleBookInfo": {
       "author": ".n-text > p:first-of-type a@text",
-      "kind": ".n-text p:nth-of-type(2)@text",
-      "wordCount": ".nsize@text",
-      "lastChapter": ".n-text p:nth-of-type(4) a@text",
-      "intro": "#intro@text",
       "coverUrl": ".n-img img@src",
-      "tocUrl": "https://ixdzs8.com/novel/clist/,{\"method\":\"POST\",\"body\":\"bid={{book.bookUrl.match(/\\/read\\/(\\d+)\\//)[1]}}\"}"
+      "intro": "#intro@text",
+      "kind": ".n-text p:nth-of-type(2)@text",
+      "lastChapter": ".n-text p:nth-of-type(4) a@text",
+      "name": "h1@text",
+      "tocUrl": "https://ixdzs8.com/novel/clist/,{\"method\":\"POST\",\"body\":\"bid={{book.bookUrl.match(/\\/read\\/(\\d+)\\//)[1]}}\"}",
+      "wordCount": ".nsize@text"
+    },
+    "ruleContent": {
+      "content": "{{(function(){var html=src;if(html.indexOf('let token = \"')>-1){var token=html.split('let token = \"')[1].split('\"')[0];var sep=chapter.url.indexOf('?')>-1?'&':'?';html=java.ajax(chapter.url+sep+'challenge='+java.encodeURI(token));}var s=html.split('<article class=\"page-content\">');if(s.length<2)return '';s=s[1].split('<section>');if(s.length<2)return '';s=s[1];if(s.indexOf('<div class=\"abg\"')>-1){s=s.split('<div class=\"abg\"')[0];}else{s=s.split('</section>')[0];}return java.htmlFormat(s).trim();})()}}",
+      "title": "article.page-content > h3@text"
+    },
+    "ruleSearch": {
+      "author": ".bauthor a@text",
+      "bookList": ".u-list>li",
+      "bookUrl": "h3.bname a@href",
+      "checkKeyWord": "炼神鼎",
+      "coverUrl": ".l-img img@src",
+      "intro": ".l-p2@text",
+      "kind": ".lz@text",
+      "lastChapter": ".l-chapter@text",
+      "name": "h3.bname a@text",
+      "wordCount": ".size@text"
     },
     "ruleToc": {
       "chapterList": "$.data[?(@.ctype==\"0\")]",
@@ -28,16 +79,6 @@
       "chapterUrl": "{{book.bookUrl+'p'+result.ordernum+'.html'}}",
       "isVolume": "{{result.ctype!='0'}}"
     },
-    "ruleContent": {
-      "content": "{{(function(){var html=src;if(html.indexOf('let token = \"')>-1){var token=html.split('let token = \"')[1].split('\"')[0];var sep=chapter.url.indexOf('?')>-1?'&':'?';html=java.ajax(chapter.url+sep+'challenge='+java.encodeURI(token));}var s=html.split('<article class=\"page-content\">');if(s.length<2)return '';s=s[1].split('<section>');if(s.length<2)return '';s=s[1];if(s.indexOf('<div class=\"abg\"')>-1){s=s.split('<div class=\"abg\"')[0];}else{s=s.split('</section>')[0];}return java.htmlFormat(s).trim();})()}}",
-      "title": "article.page-content > h3@text"
-    },
-    "ruleExplore": {},
-    "bookSourceType": 0,
-    "bookSourceUrl": "https://ixdzs8.com",
-    "bookSourceName": "爱下电子书(ixdzs8.com)",
-    "exploreUrl": "",
-    "searchUrl": "https://ixdzs8.com/bsearch?q={{key}}&page={{page}}",
-    "bookSourceComment": "[Codex] latestUpdate: 2026/04/07"
+    "searchUrl": "https://ixdzs8.com/bsearch?q={{key}}&page={{page}}"
   }
 ]
