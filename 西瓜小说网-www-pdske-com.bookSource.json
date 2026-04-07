@@ -1,0 +1,37 @@
+{
+  "bookSourceComment": "[Codex] latestUpdate: 2026/04/08",
+  "bookSourceGroup": "",
+  "bookSourceName": "西瓜小说网(www.pdske.com)",
+  "bookSourceType": 0,
+  "bookSourceUrl": "https://www.pdske.com",
+  "enabled": true,
+  "enabledCookieJar": true,
+  "header": "{\"accept\":\"text/html\",\"accept-language\":\"zh-CN\"}",
+  "ruleBookInfo": {
+    "name": "h1.booktitle@text",
+    "author": ".booktag a.red@text",
+    "kind": ".breadcrumb@a.1@text&&.booktime@text##.*：|\\\\s..:.*",
+    "lastChapter": ".bookchapter@text",
+    "intro": ".bookintromore@textNodes",
+    "coverUrl": ".bookcover img@src"
+  },
+  "ruleContent": {
+    "content": "#TextContent@html"
+  },
+  "ruleSearch": {
+    "checkKeyWord": "斗罗大陆",
+    "bookList": ".bookbox,div.book",
+    "name": "h4.bookname a,h1.booktitle@text",
+    "author": "div.author a,.booktag a.red@text",
+    "lastChapter": ".cat a,.bookchapter@text",
+    "intro": ".bookintromore,.update@textNodes",
+    "coverUrl": "img@data-original,.bookcover img@src",
+    "bookUrl": "h4.bookname a@href"
+  },
+  "ruleToc": {
+    "chapterList": "dd#chapter",
+    "chapterName": "a@text",
+    "chapterUrl": "a@href"
+  },
+  "searchUrl": "/search.php?searchkey={{key}}&action=login&submit="
+}

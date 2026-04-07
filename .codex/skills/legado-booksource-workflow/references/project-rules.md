@@ -27,6 +27,8 @@ These rules came from the initial repository instruction and apply to all future
 ## Editor Workflow Rule
 
 - New sources must be created and edited through the internal book source editor page, operated with Chrome DevTools
+- Fill the editor through visible form fields only
+- Do not use `编辑源` to paste or restore a finished JSON blob back into the editor
 - Do not directly handcraft the final `.bookSource.json`
 - Use the page's `生成源` capability to obtain the final JSON before saving
 - In the editor page `其他` tab, `启用搜索` and `CookieJar` must be enabled
@@ -34,6 +36,7 @@ These rules came from the initial repository instruction and apply to all future
 ## Header Rule
 
 - If a request can use the top-level `header`, prefer that
+- Prefer ordinary requests with a small fixed top-level `header` over `webView` when the site works that way
 - If a sub-request must define its own `headers`, redefine the complete header object there
 - Request-level custom headers override the top-level `header` instead of merging with it
 
@@ -47,6 +50,12 @@ These rules came from the initial repository instruction and apply to all future
 - Prefer leaving the content `标题规则` empty so the chapter title defaults to the title obtained from the directory phase
 - Only fill the content `标题规则` when the directory title is unreliable or needs correction from the chapter response
 
+## Content Extraction Rule
+
+- Prefer extracting the 正文主容器 first
+- Do not add source-side cleanup unless it is required to make parsing work
+- Leave normal post-processing to 阅读 APP when possible
+
 ## Debugger Input Rule
 
 Use the debugger's dedicated input forms when isolating a phase:
@@ -56,6 +65,11 @@ Use the debugger's dedicated input forms when isolating a phase:
 - 详情页: direct detail URL
 - 目录页: `++<目录页URL>`
 - 正文页: `--<正文页URL>`
+
+## Search Redirect Rule
+
+- If an exact-title search triggers a 30x redirect to the detail page, you may rely on that behavior when 阅读 APP or the debugger can parse the redirected page as a detail result
+- If you need to validate true search-list parsing, switch to a stable keyword that returns multiple results instead of redirecting
 
 ## Research Rule
 
