@@ -1,0 +1,41 @@
+{
+    "ruleSearch": {
+        "checkKeyWord": "修仙",
+        "bookList": ".result-item",
+        "name": "h3 a@text",
+        "author": "p.text-sm.text-gray-500.mb-1@text##\\\\s*\\\\|.*",
+        "kind": "p.text-sm.text-gray-500.mb-1@text##.*\\\\|\\\\s*",
+        "lastChapter": "p.text-sm.text-teal-700 a@text",
+        "intro": "p.text-gray-600.text-sm.line-clamp-2.mb-2@text",
+        "coverUrl": "img@src",
+        "bookUrl": "h3 a@href"
+    },
+    "ruleBookInfo": {
+        "name": "h1 a@text",
+        "author": "h2 span:first-of-type a@text",
+        "kind": "{{(()=>{var status='';var updated='';var m=src.match(new RegExp('状态：</i>([^<]+)<'));if(m)status=m[1].trim();m=src.match(new RegExp('更新：</i>([^<]+)<'));if(m)updated=m[1].trim();return ['小说',status&&(updated?status+'：'+updated:status)].filter((item)=>item).join(',');})()}}",
+        "wordCount": "h2 span:nth-of-type(2)@text##字数：",
+        "lastChapter": ".status a@text",
+        "intro": "{{(()=>{var m=src.match(new RegExp('<div class=\\\"intro\\\">[\\\\\\\\s\\\\\\\\S]*?<p>([\\\\\\\\s\\\\\\\\S]*?)</p>'));var s=m?String(java.htmlFormat(m[1])).trim():'';return s?'&nbsp;&nbsp;'+s:'';})()}}",
+        "coverUrl": ".cover img@src",
+        "tocUrl": "a.chapterlist@href"
+    },
+    "ruleToc": {
+        "chapterList": ".booklist li",
+        "chapterName": "a@text",
+        "chapterUrl": "a@href"
+    },
+    "ruleContent": {
+        "content": "{{(()=>{var getBody=(html)=>{var m=html.match(new RegExp('<div class=\\\"read-content\\\" id=\\\"chaptercontent\\\"[^>]*>([\\\\\\\\s\\\\\\\\S]*?)</div>'));return m?String(java.htmlFormat(m[1])).trim():'';};var getNext=(html)=>{var m=html.match(new RegExp('<a[^>]*href=\\\"([^\\\"]+)\\\"[^>]*>\\\\\\\\s*下一页\\\\\\\\s*</a>'));return m?m[1].trim():'';};var toAbs=(u)=>{if(!u)return '';if(/^https?:\\\\/\\\\//.test(u))return u;var origin='https://www.biquge.tw';return origin+(u.charAt(0)=='/'?u:'/'+u);};var html=src;var out=[];var seen={};while(html){var body=getBody(html);if(body)out.push(body);var next=getNext(html);if(!next)break;next=toAbs(next);if(!next||seen[next])break;seen[next]=1;html=java.ajax(next);}return out.join('\\\\n');})()}}"
+    },
+    "ruleExplore": {},
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.biquge.tw",
+    "bookSourceName": "笔趣阁(www.biquge.tw)",
+    "bookSourceGroup": "",
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/14",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36\",\"Referer\":\"https://www.biquge.tw/\"}",
+    "searchUrl": "https://www.biquge.tw/search/?searchkey={{key}}&page={{page}}",
+    "enabled": true,
+    "enabledCookieJar": true
+}

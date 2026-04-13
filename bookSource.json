@@ -123,6 +123,45 @@
     "searchUrl": "https://ixdzs8.com/bsearch?q={{key}}&page={{page}}"
   },
   {
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/14",
+    "bookSourceName": "笔趣阁(www.biquge.tw)",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.biquge.tw",
+    "enabled": true,
+    "enabledCookieJar": true,
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36\",\"Referer\":\"https://www.biquge.tw/\"}",
+    "ruleBookInfo": {
+      "author": "h2 span:first-of-type a@text",
+      "coverUrl": ".cover img@src",
+      "intro": "{{(()=>{var m=src.match(new RegExp('<div class=\\\"intro\\\">[\\\\\\\\s\\\\\\\\S]*?<p>([\\\\\\\\s\\\\\\\\S]*?)</p>'));var s=m?String(java.htmlFormat(m[1])).trim():'';return s?'&nbsp;&nbsp;'+s:'';})()}}",
+      "kind": "{{(()=>{var status='';var updated='';var m=src.match(new RegExp('状态：</i>([^<]+)<'));if(m)status=m[1].trim();m=src.match(new RegExp('更新：</i>([^<]+)<'));if(m)updated=m[1].trim();return ['小说',status&&(updated?status+'：'+updated:status)].filter((item)=>item).join(',');})()}}",
+      "lastChapter": ".status a@text",
+      "name": "h1 a@text",
+      "tocUrl": "a.chapterlist@href",
+      "wordCount": "h2 span:nth-of-type(2)@text##字数："
+    },
+    "ruleContent": {
+      "content": "{{(()=>{var getBody=(html)=>{var m=html.match(new RegExp('<div class=\\\"read-content\\\" id=\\\"chaptercontent\\\"[^>]*>([\\\\\\\\s\\\\\\\\S]*?)</div>'));return m?String(java.htmlFormat(m[1])).trim():'';};var getNext=(html)=>{var m=html.match(new RegExp('<a[^>]*href=\\\"([^\\\"]+)\\\"[^>]*>\\\\\\\\s*下一页\\\\\\\\s*</a>'));return m?m[1].trim():'';};var toAbs=(u)=>{if(!u)return '';if(/^https?:\\\\/\\\\//.test(u))return u;var origin='https://www.biquge.tw';return origin+(u.charAt(0)=='/'?u:'/'+u);};var html=src;var out=[];var seen={};while(html){var body=getBody(html);if(body)out.push(body);var next=getNext(html);if(!next)break;next=toAbs(next);if(!next||seen[next])break;seen[next]=1;html=java.ajax(next);}return out.join('\\\\n');})()}}"
+    },
+    "ruleSearch": {
+      "author": "p.text-sm.text-gray-500.mb-1@text##\\\\s*\\\\|.*",
+      "bookList": ".result-item",
+      "bookUrl": "h3 a@href",
+      "checkKeyWord": "修仙",
+      "coverUrl": "img@src",
+      "intro": "p.text-gray-600.text-sm.line-clamp-2.mb-2@text",
+      "kind": "p.text-sm.text-gray-500.mb-1@text##.*\\\\|\\\\s*",
+      "lastChapter": "p.text-sm.text-teal-700 a@text",
+      "name": "h3 a@text"
+    },
+    "ruleToc": {
+      "chapterList": ".booklist li",
+      "chapterName": "a@text",
+      "chapterUrl": "a@href"
+    },
+    "searchUrl": "https://www.biquge.tw/search/?searchkey={{key}}&page={{page}}"
+  },
+  {
     "bookSourceComment": "[Codex] latestUpdate: 2026/04/08",
     "bookSourceName": "西瓜小说网(www.pdske.com)",
     "bookSourceType": 0,
