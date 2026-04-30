@@ -1,0 +1,42 @@
+{
+    "ruleSearch": {
+        "checkKeyWord": "救命",
+        "bookList": ".result ul li",
+        "name": "h3 a@text",
+        "author": ".tags span:nth-of-type(1) a@text",
+        "kind": ".tags span:nth-of-type(2) a@text",
+        "wordCount": ".tags span:nth-of-type(4)@text##总字数：",
+        "lastChapter": ".book_inf p:nth-of-type(2) a@text",
+        "intro": ".book_inf p.int@text",
+        "coverUrl": "img@data-original",
+        "bookUrl": "h3 a@href"
+    },
+    "ruleBookInfo": {
+        "name": ".c01 h1 a@text",
+        "author": ".c02 .zz@text##作者：",
+        "kind": "{{(()=>{var cat='';var m=src.match(/<p>类型：<a[^>]*>([^<]+)<\\/a><\\/p>/);if(m)cat=m[1].trim();var status='';m=src.match(/<p>状态：([^<]+)<\\/p>/);if(m)status=m[1].trim();var updated='';m=src.match(/更新时间：([^<]+)<\\/span>/);if(m)updated=m[1].trim().split(' ')[0];return [cat,status&&(updated?status+'：'+updated:status)].filter((item)=>item).join(',');})()}}",
+        "wordCount": ".inf02 p:nth-of-type(2)@text##字数：",
+        "lastChapter": "#listsss li:last-child a@text",
+        "intro": "{{(()=>{var m=src.match(new RegExp('<p class=\"jj_con\" id=\"book_desc\">([\\\\s\\\\S]*?)</p>'));var s=m?String(java.htmlFormat(m[1])).trim():'';s=s.replace(new RegExp('该怎么阅读[\\\\s\\\\S]*$'),'').replace(new RegExp('阅读[^\\\\n]*?最新章节请关注（江南小说网[\\\\s\\\\S]*$'),'').trim();return s?'&nbsp;&nbsp;'+s:'';})()}}",
+        "coverUrl": ".f1_L .book_cov img@src",
+        "tocUrl": ".c01 h1 a@href"
+    },
+    "ruleToc": {
+        "chapterList": "#listsss li",
+        "chapterName": "a@text",
+        "chapterUrl": "a@href"
+    },
+    "ruleContent": {
+        "content": "{{(()=>{var m=src.match(new RegExp('<div class=\"art_con\" id=\"txt\"[^>]*>([\\\\s\\\\S]*?)</div>\\\\s*</div>'));var s=m?m[1]:'';s=s.replace(new RegExp('<p[^>]*color:red[\\\\s\\\\S]*?</p>','g'),'');return String(java.htmlFormat(s)).trim();})()}}"
+    },
+    "ruleExplore": {},
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.medabc.com.cn",
+    "bookSourceName": "江南小说网(www.medabc.com.cn)",
+    "bookSourceGroup": "",
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/30",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36\",\"Accept\":\"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8\",\"Accept-Language\":\"zh-CN,zh;q=0.9\",\"Referer\":\"https://www.medabc.com.cn/\"}",
+    "searchUrl": "/search.php?key={{key}}&page={{page}}",
+    "enabled": true,
+    "enabledCookieJar": true
+}
