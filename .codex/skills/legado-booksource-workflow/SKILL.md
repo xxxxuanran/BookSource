@@ -29,6 +29,8 @@ Do not paste or restore a complete JSON blob into the internal editor through `�
 - In the internal editor page, the `其他` tab settings `启用搜索` and `CookieJar` must be enabled.
 - If a site works with ordinary HTTP requests after adding a small fixed header set, prefer the top-level `header` over `webView`. Treat `webView` as a fallback, not the default.
 - If a sub-request needs custom `headers` and those headers cannot be fully moved to the top-level `header`, redefine the complete header object inside that sub-request. Request-level custom headers override the top-level header rather than merge with it.
+- Prefer Legado native text replacement syntax such as `{{...##...##...}}` for straightforward extraction, cleanup, and reformatting. Do not use inline JavaScript when native replacement syntax can express the rule clearly.
+- Treat the native replacement form as `原文本##正则匹配或标准文本##替换后内容`. The third segment is optional; if it is omitted, the matched text is replaced with an empty string.
 - Anonymous functions must use arrow functions such as `()=>{}`. Only named functions may use the `function` keyword.
 - If the same JS transformation is reused across multiple rules in one source, extract it into a named helper in `jsLib` and call that helper from each rule instead of duplicating inline logic. Prefer concise, source-specific names such as `qbrNormalizeId`.
 
