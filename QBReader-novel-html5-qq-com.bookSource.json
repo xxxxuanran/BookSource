@@ -1,44 +1,46 @@
 {
-    "ruleSearch": {
-        "checkKeyWord": "重生后我怎么多了个青梅",
-        "bookList": "$.booklist[*]",
-        "name": "$.title",
-        "author": "$.author",
-        "kind": "{{(()=>{var s=result.categoryInfoV4||'';return s.split(',').map((item)=>{var parts=item.split(':');return parts.length>1?parts[1]:'';}).filter((name)=>name && name!='小说').join(',');})()}}",
-        "wordCount": "$.totalWords",
-        "lastChapter": "$.updateInfo",
-        "intro": "$.intro",
-        "bookUrl": "{{(()=>{var id=qbrNormalizeId(result.bid);return id?'https://novel.html5.qq.com/qbread/api/novel/bookInfo?resourceId='+id:'';})()}}"
-    },
-    "ruleBookInfo": {
-        "author": "$.data.bookInfo.author",
-        "kind": "{{(()=>{var b=JSON.parse(src).data.bookInfo;var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var label=b.isfinish ? '已完结：' : '连载中：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
-        "wordCount": "$.data.bookInfo.contentsize",
-        "lastChapter": "$.data.bookInfo.lastSerialname",
-        "intro": "{{(()=>{var b=JSON.parse(src).data.bookInfo||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}if(s){s='&nbsp;&nbsp;'+s;}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s+=(s?'\\r\\n\\u200B\\r\\n':'')+'🏷️ 标签：'+tag;}return s;})()}}",
-        "coverUrl": "$.data.bookInfo.picurl",
-        "tocUrl": "https://novel.html5.qq.com/cgi-bin/novel_reader/catalog?book_id={{qbrNormalizeId(JSON.parse(src).data.bookInfo.resourceID)}}",
-        "name": "$.data.bookInfo.resourceName"
-    },
-    "ruleToc": {
-        "chapterName": "{{(!(result.price==0 || result.is_free) && !result.is_pay ? '__LOCK__' : '') + result.serial_name}}",
-        "chapterUrl": "https://novel.html5.qq.com/be-api/content/ads-read,{\"method\":\"POST\",\"headers\":{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\",\"Q-GUID\":\"{{Array.from({length:32},()=>'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random()*36))).join('')}}\"},\"body\":\"{\\\"Scene\\\":\\\"chapter\\\",\\\"ContentAnchorBatch\\\":[{\\\"BookID\\\":\\\"{{qbrNormalizeId(baseUrl.indexOf('book_id=')>-1?baseUrl.split('book_id=')[1].split('&')[0]:'')}}\\\",\\\"ChapterSeqNo\\\":[{{result.serial_id}}]}]}\"}",
-        "isPay": "{{result.is_pay || result.price==0 || result.is_free}}",
-        "chapterList": "$.catalog[*]",
-        "isVip": "{{!(result.price==0 || result.is_free)}}",
-        "formatJs": "title.indexOf('__LOCK__')==0 ? '🔒 ' + title.substring(8) : title"
-    },
-    "ruleContent": {
-        "content": "{{(()=>{var data=JSON.parse(src);var items=data&&data.data&&data.data.Content;if(!items||!items.length)return '';var lines=items[0].Content;return Array.isArray(lines)?lines.join('\\\\n').trim():'';})()}}"
-    },
-    "ruleExplore": {},
+    "bookSourceComment": "[Codex] latestUpdate: 2026/04/14",
+    "bookSourceGroup": "哈基米",
+    "bookSourceName": "QBReader(novel.html5.qq.com)",
     "bookSourceType": 0,
     "bookSourceUrl": "https://novel.html5.qq.com",
-    "bookSourceName": "QBReader(novel.html5.qq.com)",
-    "bookSourceComment": "[Codex] latestUpdate: 2026/04/07",
-    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\"}",
-    "jsLib": "var qbrNormalizeId=(raw)=>{raw=String(raw||'');var id=0;if(raw.indexOf('11')==0&&raw.length<10){id=parseInt(raw.substring(2),10);}else{id=parseInt(raw,10);}if(!(id>0))return '';if(id<1100000000)id+=1100000000;return String(id);};",
-    "searchUrl": "https://newopensearch.reader.qq.com/wechat?keyword={{key}}&start={{(page-1)*30}}&end={{page*30}}",
     "enabled": true,
-    "enabledCookieJar": true
+    "enabledCookieJar": true,
+    "enabledExplore": false,
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\"}",
+    "jsLib": "var qbrNormalizeId=(raw)=>{raw=String(raw||'');var id=0;if(raw.indexOf('11')==0&&raw.length<10){id=parseInt(raw.substring(2),10);}else{id=parseInt(raw,10);}if(!(id>0))return '';if(id<1100000000)id+=1100000000;return String(id);};\nvar qbrProtectContent=(text)=>String(text||'').replace(/&/g,'&amp;').replace(/#/g,'&#35;');",
+    "ruleBookInfo": {
+        "author": "$.author",
+        "coverUrl": "$.picurl",
+        "intro": "{{(()=>{var b=result||{};var s=String(b.summary||'').trim();if(s.length>1&&s.charAt(0)=='\"'&&s.charAt(s.length-1)=='\"'){s=s.substring(1,s.length-1);}if(s){s='&nbsp;&nbsp;'+s;}var tag=String(b.tag||'').trim();if(tag){tag=tag.split('|').filter((item)=>item).join('，');s+=(s?'\\r\\n\\u200B\\r\\n':'')+'🏷️ 标签：'+tag;}return s;})()}}",
+        "kind": "{{(()=>{var b=result||{};var ts=(b.lastSerialUpdateTime||0)*1000;var d=new Date(ts);var p=(n)=>n<10?'0'+n:''+n;var finished=b.isfinish===true||b.isfinish===1||b.isfinish==='1'||b.isfinish==='true';var label=finished ? '已完结：' : '连载中：';return [b.subject||'',b.subtype||'',label + d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())].join(',');})()}}",
+        "lastChapter": "$.lastSerialname",
+        "name": "$.resourceName",
+        "tocUrl": "/cgi-bin/novel_reader/catalog?book_id={{qbrNormalizeId(result.resourceID)}}",
+        "wordCount": "$.contentsize",
+        "init": "$.data.bookInfo"
+    },
+    "ruleContent": {
+        "content": "{{(()=>{var data=JSON.parse(src);var items=data&&data.data&&data.data.Content;if(!items||!items.length)return '';var blocks=items[0].Content;if(!Array.isArray(blocks))return '';return qbrProtectContent(blocks.join('\\n').trim());})()}}"
+    },
+    "ruleExplore": {},
+    "ruleSearch": {
+        "author": "$.author",
+        "bookList": "$.booklist[*]",
+        "bookUrl": "https://novel.html5.qq.com/qbread/api/novel/bookInfo?resourceId={{qbrNormalizeId(result.bid)}}",
+        "checkKeyWord": "重生后我怎么多了个青梅",
+        "intro": "$.intro",
+        "kind": "{{(()=>{var s=result.categoryInfoV4||'';return s.split(',').map((item)=>{var parts=item.split(':');return parts.length>1?parts[1]:'';}).filter((name)=>name && name!='小说').join(',');})()}}",
+        "lastChapter": "$.updateInfo",
+        "name": "$.title",
+        "wordCount": "$.totalWords"
+    },
+    "ruleToc": {
+        "chapterList": "$.catalog[*]",
+        "chapterName": "$.serial_name",
+        "chapterUrl": "/be-api/content/ads-read,{\"method\":\"POST\",\"headers\":{\"User-Agent\":\"Mozilla/5.0 (Linux; U; Android 12.0.0; zh-cn Build/V417IR) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/20.0 Mobile Safari/537.36\",\"Referer\":\"https://novel.html5.qq.com\",\"Content-Type\":\"application/json\",\"Q-GUID\":\"{{Array.from({length:32},()=>'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random()*36))).join('')}}\"},\"body\":\"{\\\"Scene\\\":\\\"chapter\\\",\\\"ContentAnchorBatch\\\":[{\\\"BookID\\\":\\\"{{qbrNormalizeId(baseUrl.indexOf('book_id=')>-1?baseUrl.split('book_id=')[1].split('&')[0]:'')}}\\\",\\\"ChapterSeqNo\\\":[{{result.serial_id}}]}]}\"}",
+        "isPay": "{{result.is_pay || result.price==0 || result.is_free}}",
+        "isVip": "{{!(result.price==0 || result.is_free)}}"
+    },
+    "searchUrl": "https://newopensearch.reader.qq.com/wechat?keyword={{key}}&start={{(page-1)*30}}&end={{page*30}}"
 }
